@@ -1,0 +1,183 @@
+@startuml
+
+' Define a classe Doador
+class Doador {
+    -nome: String
+    -cpf: String
+    -endereco: String
+    -telefone: String
+    -email: String
+    +Doador()
+    +Doador(nome: String, cpf: String, endereco: String, telefone: String, email: String)
+    +getNome(): String
+    +getCpf(): String
+    +getEndereco(): String
+    +getTelefone(): String
+    +getEmail(): String
+}
+
+' Define a classe Doacao
+class Doacao {
+    -tipoDoacao: String
+    -descricaoDoacao: String
+    -quantidadeDoacao: double
+    -doador: Doador
+    +Doacao()
+    +Doacao(tipoDoacao: String, descricaoDoacao: String, quantidadeDoacao: double, doador: Doador)
+    +getTipoDoacao(): String
+    +getDescricaoDoacao(): String
+    +getQuantidadeDoacao(): double
+    +getDoador(): Doador
+}
+
+' Define a classe Arrecadacao
+class Arrecadacao {
+    -nomeDaCampanha: String
+    -tipoArrecadacao: String
+    -descricaoArrecadacao: String
+    -organizador: Organizacao
+    +Arrecadacao()
+    +Arrecadacao(nomeDaCampanha: String, tipoArrecadacao: String, descricaoArrecadacao: String, organizador: Organizacao)
+    +getNomeDaCampanha(): String
+    +getTipoArrecadacao(): String
+    +getDescricaoArrecadacao(): String
+    +getOrganizador(): Organizacao
+}
+
+' Define a classe Organizacao (herda de Arrecadacao)
+class Organizacao {
+    -nome: String
+    -cnpj: String
+    -endereco: String
+    -telefone: String
+    -email: String
+    +Organizacao()
+    +Organizacao(nomeDaCampanha: String, tipoArrecadacao: String, descricaoArrecadacao: String, organizador: Organizacao, nome: String, cnpj: String, endereco: String, telefone: String, email: String)
+    +Organizacao(nome: String, cnpj: String, endereco: String, telefone: String, email: String)
+    +getNome(): String
+    +getCnpj(): String
+    +getEndereco(): String
+    +getTelefone(): String
+    +getEmail(): String
+}
+
+' Define a classe MoradoresDeRua
+class MoradoresDeRua {
+    -valorComida: double
+    -valorDinheiro: double
+    +MoradoresDeRua()
+    +MoradoresDeRua(valorComida: double, valorDinheiro: double)
+    +getValorComida(): double
+    +getValorDinheiro(): double
+    +adicionarComida(valor: double)
+    +adicionarDinheiro(valor: double)
+}
+
+' Define a classe OngAnimais
+class OngAnimais {
+    -valorComida: double
+    -valorDinheiro: double
+    +OngAnimais()
+    +OngAnimais(valorComida: double, valorDinheiro: double)
+    +getValorComida(): double
+    +getValorDinheiro(): double
+    +adicionarComida(valor: double)
+    +adicionarDinheiro(valor: double)
+}
+
+' Define a interface InterfaceDoacao
+interface InterfaceDoacao {
+    +adicionarDoacao(doacao: Doacao)
+    +removerDoacao(doacao: Doacao)
+    +listarDoacao(): ArrayList<Doacao>
+}
+
+' Define a interface InterfaceServicoArrecadacao
+interface InterfaceServicoArrecadacao {
+    +adicionarOrganizacao(organizacao: Organizacao)
+    +removerOrganizacao(organizacao: Organizacao)
+    +buscarOrganizacao(nome: String): Organizacao
+    +adicionarArrecadacao(arrecadacao: Arrecadacao)
+    +buscarArrecadacao(nome: String): boolean
+}
+
+' Define a classe RepositorioArrecadacao
+class RepositorioArrecadacao {
+    -arrecadacoes: ArrayList<Arrecadacao>
+    +adicionarArrecadacao(arrecadacao: Arrecadacao)
+    +removerArrecadacao(arrecadacao: Arrecadacao)
+    +listarArrecadacoes(): ArrayList<Arrecadacao>
+    +buscarArrecadacao(nome: String): boolean
+}
+
+' Define a classe RepositorioDoacao
+class RepositorioDoacao {
+    -doacoes: ArrayList<Doacao>
+    +adicionarDoacao(doacao: Doacao)
+    +removerDoacao(doacao: Doacao)
+    +listarDoacao(): ArrayList<Doacao>
+}
+
+' Define a classe RepositorioDoador
+class RepositorioDoador {
+    -doadores: ArrayList<Doador>
+    +adicionarDoador(doador: Doador)
+    +removerDoador(doador: Doador)
+    +listarDoadores(): ArrayList<Doador>
+}
+
+' Define a classe RepositorioOrganizacao
+class RepositorioOrganizacao {
+    -organizacoes: ArrayList<Organizacao>
+    +adicionarOrganizador(organizacao: Organizacao)
+    +removerOrganizadores(organizacao: Organizacao)
+    +listarOrganizadores(): ArrayList<Organizacao>
+    +buscar(nome: String): Organizacao
+}
+
+' Define a classe ServicoArrecadacao
+class ServicoArrecadacao {
+    -repositorioOrganizacao: RepositorioOrganizacao
+    -repositorioArrecadacao: RepositorioArrecadacao
+    +adicionarOrganizacao(organizacao: Organizacao)
+    +removerOrganizacao(organizacao: Organizacao)
+    +buscarOrganizacao(nome: String): Organizacao
+    +adicionarArrecadacao(arrecadacao: Arrecadacao)
+    +buscarArrecadacao(nome: String): boolean
+}
+
+' Define a classe ServicoDoacao
+class ServicoDoacao {
+    -repositorioDoacao: RepositorioDoacao
+    -repositorioDoador: RepositorioDoador
+    +adicionarDoacao(doacao: Doacao)
+    +removerDoacao(doacao: Doacao)
+    +listarDoacao()
+    +adicionarDoador(doador: Doador)
+    +removerDoador(doador: Doador)
+    +listaDoador()
+}
+
+' Define a classe App
+class App {
+    +main(args: String[])
+}
+
+' Define as relações entre classes e interfaces
+Doador <|-- Doacao
+Organizacao <|-- Arrecadacao
+Organizacao --|> Doacao : <uses>
+ServicoArrecadacao --|> RepositorioOrganizacao : <uses>
+ServicoArrecadacao --|> RepositorioArrecadacao : <uses>
+ServicoDoacao --|> RepositorioDoacao : <uses>
+ServicoDoacao --|> RepositorioDoador : <uses>
+RepositorioDoacao ..|> InterfaceDoacao
+RepositorioArrecadacao ..|> InterfaceServicoArrecadacao
+RepositorioOrganizacao ..|> InterfaceServicoArrecadacao
+ServicoArrecadacao ..|> InterfaceServicoArrecadacao
+
+' Relaciona a classe App com outras classes
+App --> ServicoArrecadacao
+App --> ServicoDoacao
+
+@enduml
